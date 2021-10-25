@@ -5,7 +5,7 @@ window.addEventListener('DOMContentLoaded', init);
 function init() {
   var synth = window.speechSynthesis;
   var voiceSelect = document.querySelector('select');
-  var PressToTalk = document.querySelector('button');
+  var pressToTalk = document.querySelector('button');
   var voices = [];
 
   // Got from developer.mozille.org
@@ -26,7 +26,7 @@ function init() {
     speechSynthesis.onvoiceschanged = populateVoiceList;
   }
 
-  PressToTalk.addEventListener('click', (event) => {
+  pressToTalk.addEventListener('click', (event) => {
     var smileimage = document.querySelector('img');
     var text = document.querySelector('textarea').value;
     var utterThis = new SpeechSynthesisUtterance(text);
@@ -48,6 +48,6 @@ function init() {
     }
     synth.speak(utterThis);
 
-  }
+  });
 
 }
