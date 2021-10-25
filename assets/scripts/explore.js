@@ -4,7 +4,6 @@ window.addEventListener('DOMContentLoaded', init);
 
 function init() {
   var synth = window.speechSynthesis;
-  var voiceSelect = document.querySelector('select');
   var pressToTalk = document.querySelector('button');
   var voices = [];
 
@@ -14,22 +13,24 @@ function init() {
   
     for(var i = 0; i < voices.length; i++) {
       var option = document.createElement('option');
-      option.textContent = voices[i].name;
+      option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
       option.setAttribute('data-lang', voices[i].lang);
       option.setAttribute('data-name', voices[i].name);
-      voiceSelect.appendChild(option);
+      document.getElementById('voice-select').appendChild(option);
     }
   }
 
   populateVoices();
   if (speechSynthesis.onvoiceschanged !== undefined) {
-    speechSynthesis.onvoiceschanged = populateVoiceList;
+    speechSynthesis.onvoiceschanged = populateVoices;
   }
 
   pressToTalk.addEventListener('click', (event) => {
     var smileimage = document.querySelector('img');
-    var text = document.querySelector('textarea').value;
-    var utterThis = new SpeechSynthesisUtterance(text);
+    var texts = document.querySelector('textarea').value;
+    var utterThis = new SpeechSynthesisUtterance(texts);
+
+    var voiceoption = document.querySelector('select').value;
 
     utterThis.onstart = function (event) {
       smileimage.src = "assets/images/smiling-open.png";
@@ -38,16 +39,12 @@ function init() {
     utterThis.onend = function (event) {
       smileimage.src = "assets/images/smiling.png";
     }
-
-
-    var voiceoption = voiceSelect.selectedOptions[0].getAttribute('data-name');
-    for (var i = 0; i < voices.length; i++) {
-      if (voices[i].name == voiceoption) {
+    for (var i = 0; i < voices.length ; i++) {
+      if ((voices[i].name + ' (' + voices[i].lang + ')') == voiceoption) {
         utterThis.voice = voices[i];
       }
     }
     synth.speak(utterThis);
-
-  });
+  })
 
 }
