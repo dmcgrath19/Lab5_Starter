@@ -40,10 +40,10 @@ function init() {
     }
 
 
-    var voiceoption = document.querySelector('select').value;
+    var voiceoption = voiceSelect.selectedOptions[0].getAttribute('data-name');
     for (var i = 0; i < voices.length; i++) {
       if (voices[i].name == voiceoption) {
-        utterThis.voice = voice[i];
+        utterThis.voice = voices[i];
       }
     }
     synth.speak(utterThis);
